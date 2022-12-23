@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container m-x-auto">
+    <RubricaList
+      :data="fetchData"
+    />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RubricaList from './components/RubricaList.vue'
+import axios from 'axios'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
+    RubricaList,
+  },
+  methods: {
+    async fetchData() {
+      try {
+          const response = await axios.get('https://www.klerk.ru/yindex.php/v3/event/rubrics');
+          this.data = response.data;
+          console.log(this.data);
+      } catch(e) {
+          console.log(e);
+      }
+    },
+  },
+  mounted() {
+      this.fetchData();
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
